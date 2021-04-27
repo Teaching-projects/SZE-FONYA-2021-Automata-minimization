@@ -1,0 +1,48 @@
+{
+   "states": [
+
+      {
+         "set of states":"0,1,2,3,4,5",
+         "set of alphabet": "a,b",
+         "initial state": "0",
+         "set of final state": "5"
+      }
+   ],
+
+   "transition function": [
+      {
+         "current state": "0",
+         "value": ["a","b"],
+         "Target state": ["1","2"]
+      },
+      {
+         "current state": "1",
+         "value": ["a","b"],
+         "Target state": ["1","2"]
+      },
+
+      {
+         "current state": "2",
+         "value": ["a","b"],
+         "Target state": ["2","3"]
+      },
+
+      {
+         "current state": "3",
+         "value": ["a","b"],
+         "Target state": ["3","4"]
+      },
+            {
+         "current state": "4",
+         "value": ["a","b"],
+         "Target state": ["4","5"]
+      },
+            {
+         "current state": "5",
+         "value": ["a","b"],
+         "Target state": ["5","5"]
+      }
+
+   ]
+
+}
