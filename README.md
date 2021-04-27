@@ -1,0 +1,1 @@
+# SZE-FONYA-2021-Automata-minimization
