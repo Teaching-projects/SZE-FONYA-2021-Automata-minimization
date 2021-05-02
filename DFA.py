@@ -232,7 +232,7 @@ def graph(file):
 
 file = "file.json"
 while(True):
-    print("1: read input and test it's correct or not from file.json")
+    print("1: read input and test it from file.json")
     print("2: minimize DFA from file.json to min_Dfa.json" )
     print("3: Graph DFA from file.json \n")
     inp = input("give me input")
