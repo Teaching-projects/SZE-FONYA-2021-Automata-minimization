@@ -10,15 +10,22 @@ class minimizations:
     If there are any unmarked pairs such that [delta(P,x), delta(Q,x)] is marked, then mark (P,Q)
     Combine all the unmarked pairs and make them a single state in the minimized DFA.
     '''
+    dfa ={}
+    Mat = []
+    Matrix = []
+    Nfs = []
+    S1 = []
+    S2 = []
+    tabX = []
     def __init__(self, dFa):
-        dfa, Mat = dFa
-        Matrix = []
+        self.dfa, self.Mat = dFa
+        self.Matrix = []
         # Nfs contain the no final states
-        Nfs = [dfa['states'][a] for a in range(0, len(dfa['states'])) if
-               dfa['states'][a] not in dfa['accepting_states']]  # set of NFS
-        S1 = []
-        S2 = []
-        tabX = []
+        self.Nfs = [self.dfa['states'][a] for a in range(0, len(self.dfa['states'])) if
+               self.dfa['states'][a] not in self.dfa['accepting_states']]  # set of NFS
+        self.S1 = []
+        self.S2 = []
+        self.tabX = []
 
     def step_1(self):
         #1st step
