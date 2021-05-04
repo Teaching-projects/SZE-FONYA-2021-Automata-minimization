@@ -12,9 +12,8 @@ def load_DFA(file):
         data = json.load(read_file)
         A = []
         Mat = []
-        set_of_states, set_of_alphabet, initial_state, set_of_final_state = data['states'],data['alphabet'],data['starting_state'],data['accepting_states']
-        prev_src = str(initial_state)
-        current_src = str(initial_state)
+        prev_src = str(data['starting_state'])
+        current_src = str(data['starting_state'])
         for p in data['transitions']:
             current_src = p['source']
             if (prev_src == current_src):
