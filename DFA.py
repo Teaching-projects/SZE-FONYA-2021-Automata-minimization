@@ -3,8 +3,11 @@ import csv
 import time
 from graphviz import Digraph
 from numpy import *
+import minimization
 
-def function_read_file(file):
+
+
+def load_DFA(file):
     with open(file, "r") as read_file:
         data = json.load(read_file)
         A = []
@@ -27,9 +30,11 @@ def function_read_file(file):
                 del (A)
                 A = []
     del (A)
-    return data['states'],data['alphabet'],data['starting_state'],data['accepting_states'],Mat
-def test_word(file):
-    set_of_states, set_of_alphabet, initial_state, set_of_final_state, Mat = function_read_file(file)
+    return data,Mat
+def test_word():
+    file = ('file.json')
+    data, Mat = load_DFA(file)
+    set_of_states, set_of_alphabet, initial_state, set_of_final_state = data['states'],data['alphabet'],data['starting_state'],data['accepting_states']
     A = []
     Resultat = []
     init = int(initial_state[0])
@@ -46,36 +51,35 @@ def test_word(file):
     else:
         return False
 
-def min_file(file):
-    set_of_states, set_of_alphabet, initial_state, set_of_final_state, Mat = function_read_file(file)
-    new_set_of_states, set_of_alphabet, new_initial_state, new_set_of_final_state,New_transition = minimization(file)
-    with open('min_Dfa.json', 'w') as json_file:
+
+def save_DFA_to_file(dFa, filename):
+    dfa, New_transition = dFa
+    new_set_of_states, set_of_alphabet, new_initial_state, new_set_of_final_state = dfa['states'], dfa['alphabet'], dfa[
+        'starting_state'], dfa['accepting_states']
+    transitions = []
+    for i in range(0, len(New_transition)):
+        for j in range(0, len(set_of_alphabet)):
+            transit = {"source": new_set_of_states[i], "symbol": set_of_alphabet[j],
+                       "destination": New_transition[i][j]}
+            transitions.append(transit)
+    with open(filename+'.json', 'w') as json_file:
         min_Dfa = {
-            "states": [
-
-                {
-                    "states": new_set_of_states,
-                    "alphabet": set_of_alphabet,
-                    "starting_state": new_initial_state,
-                    "accepting_states": new_set_of_final_state
-                },
-            ],
-
+            "states": new_set_of_states,
+            "alphabet": set_of_alphabet,
+            "starting_state": new_initial_state,
+            "accepting_states": new_set_of_final_state,
+            "transitions": transitions
         }
         json.dump(min_Dfa, json_file)
-        for i in range (0 ,len(New_transition)):
-            for j in range(0,len(set_of_alphabet)):
-                trans = {
-                    "transitions": [
-
-                    {"source": new_set_of_states[i],"symbol": set_of_alphabet[j] ,"destination": New_transition[i][j]},
-                ],
-                }
-                json.dump(trans, json_file)
 
 
-def minimization(file):
-    set_of_states, set_of_alphabet, initial_state, set_of_final_state, Mat = function_read_file(file)
+"""
+def minimization():
+    file = ('file.json')
+    data, Mat = load_DFA(file)
+    set_of_states, set_of_alphabet, initial_state, set_of_final_state = data['states'], data['alphabet'], data[
+        'starting_state'], data['accepting_states']
+
     init = int(initial_state[0])
     #DFA Minimization using Myphill-Nerode Theorem
     #Nfs contain the no final states
@@ -212,11 +216,18 @@ def minimization(file):
                     else:
                         A[i] = Mat[int(S1[j])][i]
         New_transition.append(A)
-
-    return new_set_of_states,set_of_alphabet,new_initial_state,new_set_of_final_state,New_transition
+    dfa = {
+        "states" : new_set_of_states,
+        "alphabet" : set_of_alphabet,
+        "starting_state" : new_initial_state,
+        "accepting_states" : new_set_of_final_state
+          }
+    return dfa,New_transition
+"""
 def graph(file):
-    new_set_of_states,set_of_alphabet,new_initial_state,new_set_of_final_state,Mat = function_read_file(file)
-    set_of_states = new_set_of_states
+    data, Mat = load_DFA(file)
+    set_of_states, set_of_alphabet, initial_state, set_of_final_state = data['states'], data['alphabet'], data[
+        'starting_state'], data['accepting_states']
     print(Mat)
 
     dot = Digraph('DFA')
@@ -231,18 +242,20 @@ def graph(file):
 
 
 file = "file.json"
+min1 = minimization.minimizations(load_DFA(file))
 while(True):
     print("1: read input and test it from file.json")
     print("2: minimize DFA from file.json to min_Dfa.json" )
     print("3: Graph DFA from file.json \n")
-    inp = input("give me input")
+    inp = input("give me an input \n")
     if(inp == '1'):
-        if (test_word(file)):
+        if (test_word()):
             print('Correct')
         else:
             print('incorrect')
     if(inp == '2'):
-        min_file(file)
+        save_DFA_to_file(min1.step_4(),'min_Dfa')
+        print(min1.step_4())
     if(inp == '3'):
         graph(file)
     # the 'q' button is set as the
