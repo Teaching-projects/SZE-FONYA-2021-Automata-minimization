@@ -30,11 +30,11 @@ class minimizations:
     def step_1(self):
         #1st step
         init = int(self.dfa['starting_state'][0])
-        A = []
         # Draw a table for all pairs of states (Qi, Qj)
         #if (Qi, Qj) connected then contains 'X'
         #if (Qi, Qj) not connected then contains 'E'
         for s1 in self.dfa['states']:
+            A = []
             for s2 in self.dfa['states']:
                 if (((s1 in self.Nfs) and (s2 in self.dfa['accepting_states'])) or ((s2 in self.Nfs) and (s1 in self.dfa['accepting_states']))):
                     A.append('X')
